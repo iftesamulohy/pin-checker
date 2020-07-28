@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pin Generator</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="pin-generator half-width">
+                    <input class="form-control" type="text" id="pinNumber">
+                    <button class="generate-btn" onclick="randomNumber()">Generate Pin</button>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="input-section half-width">
+                    <input class="form-control" type="text" id="inputValue">
+                    <div class="numbers">
+                        <div class="calc-body">
+                            <div class="calc-button-row">
+                              <div class="button" onclick="KeyValue(7)">7</div>
+                              <div class="button" onclick="KeyValue(8)">8</div>
+                              <div class="button" onclick="KeyValue(9)">9</div>
+                            </div>
+                            <div class="calc-button-row">
+                              <div class="button" onclick="KeyValue(4)">4</div>
+                              <div class="button" onclick="KeyValue(5)">5</div>
+                              <div class="button" onclick="KeyValue(6)">6</div>
+                            </div>
+                            <div class="calc-button-row">
+                              <div class="button" onclick="KeyValue(1)">1</div>
+                              <div class="button" onclick="KeyValue(2)">2</div>
+                              <div class="button" onclick="KeyValue(3)">3</div>
+                            </div>
+                            <div class="calc-button-row">
+                                <div class="button" onclick="deleteOne()"><</div>
+                                <div class="button" onclick="KeyValue(0)">0</div>
+                                <div class="button" onclick="clearAll()">C</div>
+                            </div>
+                            <div>
+                                <button id="submitBtn" type="submit" class="submit-btn" onclick="pinChecker()">Submit</button>
+                                <p class="action-left"><span id="timeLeft">3</span> try left</p>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="notify-section">
+            <p class="notify" id="error-message">❌ Pin Didn't Match, Please try again</p>
+            <p class="notify" id="success-message">✅ Pin Matched... Secret door is opening for you</p>
+        </div>
+    </div>
+    <script>
+        //Generate Random Number
+        function randomNumber(){
+                document.getElementById("pinNumber").value= Math.floor(1000+Math.random()*9000);
+        }
+        //Function for keys action
+        function KeyValue(value){
+        let inputValue = getValue("inputValue");
+        if(inputValue==""){
+            document.getElementById("inputValue").value = value
+        }
+        if(inputValue!=""){
+            document.getElementById("inputValue").value = inputValue.toString()+value.toString();
+        }
+    }
+    //Check pin correct or not and give message and also disable after 3 try
+    function pinChecker(){
+        let generatedPin = parseInt(getValue("pinNumber"));
+        let inputedValue = parseInt(getValue("inputValue"));
+        if(generatedPin==inputedValue){
+            document.getElementById("success-message").style.display= "block";
+        }
+        else{
+            document.getElementById("error-message").style.display= "block";
+            const timeLeft= parseInt(document.getElementById("timeLeft").innerText)-1;
+            document.getElementById("timeLeft").innerText = timeLeft;
+            if(timeLeft<=0){
+                document.getElementById("submitBtn").disabled= true;
+            }
+            clearAll();
+        }
+    }
+    //Clear All Input values
+    function clearAll(){
+        document.getElementById('inputValue').value = "";
+    }
+    // Backspace 
+    function deleteOne(){
+       let text = getValue('inputValue');
+       document.getElementById('inputValue').value=text.slice(0, -1);
+    }
+    //function for catch element
+    function getValue(elementId){
+        return document.getElementById(elementId).value;
+    }
+    </script>
+</body>
+</html>

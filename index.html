@@ -37,7 +37,7 @@
                               <div class="button" onclick="KeyValue(3)">3</div>
                             </div>
                             <div class="calc-button-row">
-                                <div class="button" onclick="deleteOne()"><</div>
+                                <div class="button" onclick="backSpace()"><</div>
                                 <div class="button" onclick="KeyValue(0)">0</div>
                                 <div class="button" onclick="clearAll()">C</div>
                             </div>
@@ -58,8 +58,8 @@
         //Generate Random Number
         function randomNumber(){
                 document.getElementById("pinNumber").value= Math.floor(1000+Math.random()*9000);
-                document.getElementById("success-message").style.display= "none";
-                document.getElementById("error-message").style.display= "none";
+                giveMassage("success-message","none");
+                giveMassage("error-message","none");
                 clearAll();
         }
         //Function for keys action
@@ -77,10 +77,10 @@
         let generatedPin = parseInt(getValue("pinNumber"));
         let inputedValue = parseInt(getValue("inputValue"));
         if(generatedPin==inputedValue){
-            document.getElementById("success-message").style.display= "block";
+           giveMassage("success-message","block");
         }
         else{
-            document.getElementById("error-message").style.display= "block";
+            giveMassage("error-message","block");
             const timeLeft= parseInt(document.getElementById("timeLeft").innerText)-1;
             document.getElementById("timeLeft").innerText = timeLeft;
             if(timeLeft<=0){
@@ -94,13 +94,17 @@
         document.getElementById('inputValue').value = "";
     }
     // Backspace 
-    function deleteOne(){
+    function backSpace(){
        let text = getValue('inputValue');
        document.getElementById('inputValue').value=text.slice(0, -1);
     }
     //function for catch element
     function getValue(elementId){
         return document.getElementById(elementId).value;
+    }
+    //message handling
+    function giveMassage(messageId,messageBehavior){
+        document.getElementById(messageId).style.display= messageBehavior;
     }
     </script>
 </body>
